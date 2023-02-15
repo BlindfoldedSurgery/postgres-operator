@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: add repo
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm repo add postgres-operator https://opensource.zalando.com/postgres-operator/charts/postgres-operator
       - name: build deps
         uses: WyriHaximus/github-action-helm3@v2
         with:
@@ -32,6 +36,10 @@ jobs:
       - uses: actions/checkout@v3
       - run: sed -i -e "s#__AWS_ACCESS_KEY_ID__#${AWS_ACCESS_KEY_ID}#g" values.yaml
       - run: sed -i -e "s#__AWS_SECRET_ACCESS_KEY__#${AWS_SECRET_ACCESS_KEY}#g" values.yaml
+      - name: add repo
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm repo add postgres-operator https://opensource.zalando.com/postgres-operator/charts/postgres-operator
       - name: build deps
         uses: WyriHaximus/github-action-helm3@v2
         with:
