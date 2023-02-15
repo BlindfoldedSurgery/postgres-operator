@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: lint
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm lint
       - name: lint strict
         uses: WyriHaximus/github-action-helm3@v2
         with:
