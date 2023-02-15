@@ -1,0 +1,7 @@
+postgres-operator:
+  configLogicalBackup:
+    logical_backup_s3_access_key_id: "__AWS_ACCESS_KEY_ID__"
+    logical_backup_s3_secret_access_key: "__AWS_SECRET_ACCESS_KEY__"
+    logical_backup_s3_bucket: "postgres-operator-backup"
+    logical_backup_s3_endpoint: "https://sos-de-fra-1.exo.io"
+    logical_backup_schedule: "01 00 * * *"

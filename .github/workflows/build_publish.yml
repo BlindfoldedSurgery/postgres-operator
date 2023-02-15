@@ -1,0 +1,31 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: "helm lint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: lint strict
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm lint --strict
+
+  deploy:
+    name: "Publish to k8s"
+    runs-on: ubuntu-latest
+    needs: build_push_docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: sed -i -e "s#__AWS_ACCESS_KEY_ID__#${AWS_ACCESS_KEY_ID}#g" values.yaml
+      - run: sed -i -e "s#__AWS_SECRET_ACCESS_KEY__#${AWS_SECRET_ACCESS_KEY}#g" values.yaml
+      - name: install helm chart
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm upgrade postgres-operator . --install --namespace=postgres-operator --atomic
+          kubeconfig: ${{ secrets.KUBECONFIG_RAW }}
