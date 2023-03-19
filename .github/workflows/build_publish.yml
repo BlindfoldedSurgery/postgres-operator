@@ -12,19 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: add repo
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm repo add postgres-operator https://opensource.zalando.com/postgres-operator/charts/postgres-operator
       - name: build deps
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm dependency build
       - name: lint
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm lint
       - name: lint strict
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm lint --strict
 
@@ -37,15 +37,15 @@ jobs:
       - run: sed -i -e "s#__AWS_ACCESS_KEY_ID__#${AWS_ACCESS_KEY_ID}#g" values.yaml
       - run: sed -i -e "s#__AWS_SECRET_ACCESS_KEY__#${AWS_SECRET_ACCESS_KEY}#g" values.yaml
       - name: add repo
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm repo add postgres-operator https://opensource.zalando.com/postgres-operator/charts/postgres-operator
       - name: build deps
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm dependency build
       - name: install helm chart
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm upgrade postgres-operator . --install --namespace=postgres-operator --atomic
           kubeconfig: ${{ secrets.KUBECONFIG_RAW }}
