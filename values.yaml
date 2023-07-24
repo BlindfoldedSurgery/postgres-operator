@@ -1,7 +1,22 @@
-postgres-operator:
-  configLogicalBackup:
-    logical_backup_s3_access_key_id: "__AWS_ACCESS_KEY_ID__"
-    logical_backup_s3_secret_access_key: "__AWS_SECRET_ACCESS_KEY__"
-    logical_backup_s3_bucket: "postgres-operator-backup"
-    logical_backup_s3_endpoint: "https://sos-de-fra-1.exo.io"
-    logical_backup_schedule: "01 00 * * *"
+namespace: postgres-operator
+
+secret:
+  name: postgres-pod-secrets
+  secretStoreName: mgmt-prod
+  dataFrom:
+  - find:
+      name:
+        regexp: "EXOSCALE_.*"
+    rewrite:
+    - regexp:
+        source: "EXOSCALE_(.+)"
+        target: "$1"
+    - regexp:
+        source: "EXOSCALE_(.+)"
+        target: "CLONE_$1"
+
+backup:
+  bucket: k8s-backup
+  region: de-fra-1
+  retainCount: 14
+  schedule: 00 12 * * *
