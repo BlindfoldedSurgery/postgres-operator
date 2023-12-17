@@ -5,3 +5,5 @@ postgres-operator:
     logical_backup_s3_bucket: "postgres-operator-backup"
     logical_backup_s3_endpoint: "https://sos-de-fra-1.exo.io"
     logical_backup_schedule: "01 00 * * *"
+  configKubernetes:
+    enable_cross_namespace_secret: true
